@@ -1452,7 +1452,7 @@ describe('Transaction', function() {
       var obj = parsedTransaction.toObject();
       var expectedPubKeyId = new PrivateKey(privateKey).toPublicKey()._getID().toString('hex');
       expect(parsedTransaction.type).to.be.equal(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
-      expect(parsedTransaction.extraPayload.nVersion).to.be.equal(1);
+      expect(parsedTransaction.extraPayload.version).to.be.equal(1);
       expect(parsedTransaction.extraPayload.userName).to.be.equal(username);
       expect(parsedTransaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(expectedPubKeyId);
     });
@@ -1460,28 +1460,28 @@ describe('Transaction', function() {
       var transaction = new Transaction()
         .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
         .from([
-            {
-              "txid": "c65313baa69067b4cea18463e85e96e35a14c7ddfc0bd3dca233fc6405f47958",
-              "vout": 0,
-              "address": "yYu4RZNzC6ByNwrotbN3nvoQg8GaNPz6Zv",
-              "scriptPubKey": "2102617d5318fc37cc00bd1fcc5559ecd89b5eb1ddae023b74ce3fb84fda3befc170ac",
-              "amount": 500.00000000,
-              "confirmations": 101,
-              "spendable": true,
-              "solvable": true,
-              "ps_rounds": -2
-            },
-            {
-              "txid": "815dc90c8e68116df32d22d2e34644c77088e1d7395ee98b845d7a00c9798798",
-              "vout": 0,
-              "address": "yc1XbstyTpWtx6XxnQbwsPhLEMXNSWnHkc",
-              "scriptPubKey": "210319d4a6b993db3bb6824894cafb8ddb5b5716f2b738b329fa540739fa99fa65f9ac",
-              "amount": 500.00000000,
-              "confirmations": 102,
-              "spendable": true,
-              "solvable": true,
-              "ps_rounds": -2
-            },
+            // {
+            //   "txid": "c65313baa69067b4cea18463e85e96e35a14c7ddfc0bd3dca233fc6405f47958",
+            //   "vout": 0,
+            //   "address": "yYu4RZNzC6ByNwrotbN3nvoQg8GaNPz6Zv",
+            //   "scriptPubKey": "2102617d5318fc37cc00bd1fcc5559ecd89b5eb1ddae023b74ce3fb84fda3befc170ac",
+            //   "amount": 500.00000000,
+            //   "confirmations": 101,
+            //   "spendable": true,
+            //   "solvable": true,
+            //   "ps_rounds": -2
+            // },
+            // {
+            //   "txid": "815dc90c8e68116df32d22d2e34644c77088e1d7395ee98b845d7a00c9798798",
+            //   "vout": 0,
+            //   "address": "yc1XbstyTpWtx6XxnQbwsPhLEMXNSWnHkc",
+            //   "scriptPubKey": "210319d4a6b993db3bb6824894cafb8ddb5b5716f2b738b329fa540739fa99fa65f9ac",
+            //   "amount": 500.00000000,
+            //   "confirmations": 102,
+            //   "spendable": true,
+            //   "solvable": true,
+            //   "ps_rounds": -2
+            // },
             {
               "txid": "502315deb03c98f5308aa6846a18492dcfec1ab4bae6ed37255f0a8336504cbb",
               "vout": 0,
@@ -1506,9 +1506,11 @@ describe('Transaction', function() {
         .setPubKeyIdFromPrivateKey(privateKey)
         .sign(privateKey);
 
-      expect(transaction.extraPayload.nVersion).to.be.equal(1);
+      expect(transaction.extraPayload.version).to.be.equal(1);
       expect(transaction.extraPayload.userName).to.be.equal(username);
       expect(transaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(expectedPubKeyId);
+
+      var payloadHash = transaction.extraPayload.getHash({ skipSignature: true });
 
       // TODO: invalid signature
       expect(transaction.extraPayload.vchSig).to.be.equal(expectedPayloadSignature);
