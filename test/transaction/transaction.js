@@ -1443,6 +1443,7 @@ describe('Transaction', function() {
       "satoshis": 49998999738,
       "script": "76a9140f2c47ee25b8ba7b4f20e856b69f393cce3ad5f988ac"
     };
+    var randomPubKeyId = new PrivateKey().toPublicKey()._getID().toString('hex');
     var subTxRegisterHex = '03000800000140420f0000000000016a000000005d0100047465737488d9931ea73d60eaf7e5671efc0552b912911f2a412068b83466eaae3ac1f5c021d8d95559592c1e4c49142dc0da61e4912e124b4bca5ad5f5e282e24f6c0c1b1580545479d2c40ca088e54316c836221a143da5596c';
     var username = 'test';
     var expectedPubKeyId = new PrivateKey(privateKey).toPublicKey()._getID().toString('hex');
