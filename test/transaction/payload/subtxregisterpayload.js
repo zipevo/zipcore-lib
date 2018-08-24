@@ -39,13 +39,12 @@ describe('SubTxRegisterPayload', function() {
         .setUserName('test')
         .setPubKeyId(pubKeyId)
         .toBuffer();
-      // 2 bytes is payload version, 1 is username size, 1 is zero signature
-      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 1);
-      expect(payloadBufferWithoutPubKeyId.length).to.be.equal(payloadBuffer.length - Payload.constants.PUBKEY_ID_SIZE);
+      // 2 bytes is payload version, 1 is username size, 2 is sig size and zero signature
+      var payloadBufferWithoutPubKeyId = payloadBuffer.slice(0, 2 + 1 + Buffer.from('test').length + 2);
 
       expect(function () {
         SubTxRegisterPayload.fromBuffer(payloadBufferWithoutPubKeyId)
-      }).to.throw('Invalid pubKeyId size');
+      }).to.throw();
     });
   });
   describe('fromJSON', function () {
@@ -269,7 +268,7 @@ describe('SubTxRegisterPayload', function() {
         .sign(privateKey);
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON.vchSig).to.be.equal(Payload.constants.EMPTY_SIGNATURE);
+      expect(payloadJSON).not.to.have.property('vchSig');
     });
   });
   describe('#toBuffer', function () {
@@ -293,8 +292,7 @@ describe('SubTxRegisterPayload', function() {
         .setPubKeyId(pubKeyId)
         .sign(privateKey);
 
-      // We excluding signature size from payload size. We expect 1 byte at the end to be a zero
-      var expectedLength = payload.toBuffer().length - Payload.constants.COMPACT_SIGNATURE_SIZE + 1;
+      var expectedLength = payload.toBuffer().length - Payload.constants.COMPACT_SIGNATURE_SIZE;
 
       var payloadBuffer = payload.toBuffer({ skipSignature: true });
 

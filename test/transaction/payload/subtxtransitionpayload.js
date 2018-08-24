@@ -121,7 +121,7 @@ describe('SubTxTransitionPayload', function() {
 
       expect(function () {
         SubTxTransitionPayload.fromBuffer(payloadBuffer);
-      }).to.throw('Invalid Argument');
+      }).to.throw();
     });
   });
   describe('fromJSON', function () {
@@ -280,7 +280,7 @@ describe('SubTxTransitionPayload', function() {
       var payload = validPayloadFixture.copy();
 
       var payloadJSON = payload.toJSON({ skipSignature: true });
-      expect(payloadJSON.vchSig).to.be.equal(Payload.constants.EMPTY_SIGNATURE);
+      expect(payloadJSON).not.to.have.property('vchSig');
     });
   });
   describe('#toBuffer', function () {

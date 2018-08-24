@@ -1458,6 +1458,7 @@ describe('Transaction', function() {
       expect(parsedTransaction.extraPayload.userName).to.be.equal(username);
       expect(parsedTransaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(expectedPubKeyId);
       expect(parsedTransaction.extraPayload.verifySignature(expectedPubKeyId)).to.be.true;
+      expect(parsedTransaction.extraPayload.verifySignature(randomPubKeyId)).to.be.false;
     });
     it('Should create same hex', function () {
       var transaction = new Transaction()
