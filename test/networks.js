@@ -43,7 +43,7 @@ describe('Networks', function() {
   it('should be able to define a custom Network', function() {
     var custom = {
       name: 'customnet',
-      alias: 'mynet',
+      alias: ['mynet'],
       pubkeyhash: 0x10,
       privatekey: 0x90,
       scripthash: 0x08,
