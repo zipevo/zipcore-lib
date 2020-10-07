@@ -50,7 +50,9 @@ bitcore.errors = require('./lib/errors');
 // main bitcoin library
 bitcore.Address = require('./lib/address');
 bitcore.Block = require('./lib/block');
+
 bitcore.MerkleBlock = require('./lib/block/merkleblock');
+bitcore.QuorumEntry = require('./lib/deterministicmnlist/QuorumEntry');
 bitcore.SimplifiedMNList = require('./lib/deterministicmnlist/SimplifiedMNList');
 bitcore.SimplifiedMNListDiff = require('./lib/deterministicmnlist/SimplifiedMNListDiff');
 bitcore.SimplifiedMNListEntry = require('./lib/deterministicmnlist/SimplifiedMNListEntry');
@@ -69,6 +71,8 @@ bitcore.Unit = require('./lib/unit');
 bitcore.Message = require('./lib/message');
 bitcore.Mnemonic = require('./lib/mnemonic');
 bitcore.BloomFilter = require('./lib/bloomfilter');
+
+bitcore.ChainLock = require('./lib/chainlock/chainlock');
 
 // dependencies, subject to change
 bitcore.deps = {};
