@@ -1,26 +1,27 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
+const webpack = require('webpack');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
-const commonJSConfig = {
+module.exports = {
   entry: ['./index.js'],
-  module: {
-    rules: [],
+  resolve: {
+    fallback: {
+      fs: false,
+      crypto: require.resolve('crypto-browserify'),
+      buffer: require.resolve('buffer/'),
+      assert: require.resolve('assert-browserify'),
+      stream: require.resolve('stream-browserify'),
+      path: require.resolve('path-browserify'),
+      url: require.resolve('url/'),
+    }
   },
-  target: 'web'
-};
-
-const rawConfig = Object.assign({}, commonJSConfig, {
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'dashcore-lib.js',
-    library: 'dashcore',
-    libraryTarget: 'umd',
-  }
-})
-const uglifiedConfig = Object.assign({}, commonJSConfig, {
+  target: 'web',
+  plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ["buffer", "Buffer"],
+        process: 'process/browser',
+      })
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'dashcore-lib.min.js',
@@ -29,8 +30,15 @@ const uglifiedConfig = Object.assign({}, commonJSConfig, {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
   },
-})
-
-module.exports = [rawConfig, uglifiedConfig];
+};
