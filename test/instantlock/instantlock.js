@@ -338,6 +338,25 @@ describe('InstantLock', function () {
           const instantLockJSON = instantLock.toObject();
           expect(instantLockJSON).to.be.deep.equal(object);
         });
+        it('should be able to handle false-positive v18', () => {
+          const instantLockString = '0104edf83df6cba7c6535272d91eeff5ff2eda5a579d51389b381e10f580ff80b7010000004d48cc7b66105699422fe0db7212c033a84fbc7dcf799550a1038ff6f30aa1220291fcfb6d44c06780ac475ce5cb3dd4c7f565888f485252cb4ae6ad206161b2f58655752c8e74f5ef627813870e94490fa7c1634361054fb1b81dd751a9dcd8419dc00dd17282729c474ecf4aae9053dbbcc43e02710f8f899db38be8d649e5'
+          const instantLockObject = {
+            inputs: [
+              {
+                outpointHash: 'b780ff80f5101e389b38519d575ada2efff5ef1ed9725253c6a7cbf63df8ed04',
+                outpointIndex: 1
+              }
+            ],
+            txid: '22a10af3f68f03a1509579cf7dbc4fa833c01272dbe02f42995610667bcc484d',
+            signature: '0291fcfb6d44c06780ac475ce5cb3dd4c7f565888f485252cb4ae6ad206161b2f58655752c8e74f5ef627813870e94490fa7c1634361054fb1b81dd751a9dcd8419dc00dd17282729c474ecf4aae9053dbbcc43e02710f8f899db38be8d649e5'
+          };
+
+          const instantLock = new InstantLock(instantLockString);
+          const string = instantLock.toString();
+          expect(string).to.equal(instantLockString);
+          const object = instantLock.toObject();
+          expect(object).to.be.deep.equal(instantLockObject);
+        })
       });
 
       describe('#fromObject', () => {
