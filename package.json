@@ -1,6 +1,6 @@
 {
   "name": "@dashevo/dashcore-lib",
-  "version": "0.19.40",
+  "version": "0.19.41",
   "description": "A pure and powerful JavaScript Dash library.",
   "author": "Dash Core Group, Inc. <dev@dash.org>",
   "main": "index.js",
@@ -150,7 +150,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^5.0.0",
-    "mocha": "^8.4.0",
+    "mocha": "^9.2.2",
     "nyc": "^15.1.0",
     "path-browserify": "^1.0.1",
     "prettier": "^2.3.0",
