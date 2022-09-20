@@ -6,6 +6,8 @@
  * @property {string} pubKeyOperator - operator public key
  * @property {string} votingAddress
  * @property {boolean} isValid
+ * @property {string} [payoutAddress]
+ * @property {string} [operatorPayoutAddress]
  */
 export type SMLEntry = {
   proRegTxHash: string;
@@ -14,6 +16,8 @@ export type SMLEntry = {
   pubKeyOperator: string;
   votingAddress: string;
   isValid: boolean;
+  payoutAddress?: string;
+  operatorPayoutAddress?: string;
 };
 
 /**
@@ -27,6 +31,8 @@ export type SMLEntry = {
  * @property {string} pubKeyOperator - operator public key
  * @property {string} votingAddress
  * @property {boolean} isValid
+ * @property {string} [payoutAddress]
+ * @property {string} [operatorPayoutAddress]
  */
 export class SimplifiedMNListEntry {
   constructor(arg: string | any | Buffer, network?: string);
@@ -88,4 +94,6 @@ export class SimplifiedMNListEntry {
   pubKeyOperator: string;
   votingAddress: string;
   isValid: boolean;
+  payoutAddress?: string;
+  operatorPayoutAddress?: string;
 }
