@@ -122,22 +122,27 @@ describe('ChainLock', function () {
         '140f5a4db1a3330b7dfdda8fe181137b2644577efd843a60401f0dbc7b0856782578bc9d6ab1a0b133596bcc158d781d02ed4db881cb4cc3260273dc90a53c1d1ce37930fa106c47db4cf7702b2e956dcafb7b180bea7aae2d662b7a6c217f27',
     };
 
-    quorum4 = new QuorumEntry(quorumEntryJSON4);
-
-    str4 =
-      'e80306000b2707507f03a51d11e072f9d14129b42ec758f314e22139789a1102cc080000061476c699fee312a29c0e7a604a5288237073e9317ac458f5772e0e40793fcca83ba72fe3b8f42f4cf1499c02764fb313b6661e873b084bb8e65cd087567060743fca85a73782a6f53503d4c336cc07b69780c6b9e98a4bfcce0d4b17d3d889';
-    object4 = {
-      height: 394216,
-      blockHash:
-        '000008cc02119a783921e214f358c72eb42941d1f972e0111da5037f5007270b',
-      signature:
-        '061476c699fee312a29c0e7a604a5288237073e9317ac458f5772e0e40793fcca83ba72fe3b8f42f4cf1499c02764fb313b6661e873b084bb8e65cd087567060743fca85a73782a6f53503d4c336cc07b69780c6b9e98a4bfcce0d4b17d3d889',
-    };
+    str4 = '7f0500000a07fdd12cf5d5ebb35bd0d0a8fd1d5557616624146b49f30a712f924aa57576b4117577aaef9d19115ff9ae45974f476c1c378879daa4f1dfe3c2b8b72df8423c483f4c6d39a61fc2181e279669108a12059634d6df232f6daae261b3c59667ce07eea6c2fc74b8a20400c66f478be5d59ecd888ebf6d677341a6d888f622c7';
     buf4 = Buffer.from(str4, 'hex');
-    expectedHash4 =
-      'd73841eb94c838a333614ce5f9410c2d3c98b62c5750c5b6d66eb77ef2c72439';
-    expectedRequestId4 =
-      '430ac5edcd8862e9cd798d37bc6dc7074b4deb10e24eb9e602af57ca16ee7bab';
+
+    quorumEntryJSON4 = {
+      isVerified: false,
+      isOutdatedRPC: false,
+      version: 3,
+      llmqType: 100,
+      quorumHash: '702a256bfb71f5036c840bbfabc999d9f4ea4c9e721c68f55bd7463138a89130',
+      quorumIndex: 0,
+      signersCount: 3,
+      signers: '07',
+      validMembersCount: 3,
+      validMembers: '07',
+      quorumPublicKey: '8980c2da461929c2b4584d57ab0f8d016ac3f904c4adee8322766602dc9b1763a132984ad300c057d6ccb8f0f52fde09',
+      quorumVvecHash: '7de6279950d201802e0ee654b961cab12fbdc871569e903f0af177a6a7f16b62',
+      quorumSig: 'a4d2c36a94f36ebadfcceae58d1d76b958e2a6d01c71411730ac1d987d5b18ce4055fa92bace2c32daf110daa6cb69a5058e9bbdd51675f8fb5e5a0bf7b7bd24af179fa613dee5e0e3114a106b0984d633bd54aafd4a18d971163a6b320e3a5b',
+      membersSig: '874532a268d41f5d589c47ab66a85e4b89cf81aa5f02174fbd578e641ef0ac5fc8ba6fd31cdc1fe013b1f22987dd0865172735282b0bf7886e516eb08c2444829e89d0b19d337462c6e8204cacc9d9b6775d375a4ae5a3b03f9b5955ac48b5e1'
+    };
+
+    quorum4 = new QuorumEntry(quorumEntryJSON4);
   });
 
   it(`should have 'clsig' constant prefix`, function () {
@@ -177,7 +182,7 @@ describe('ChainLock', function () {
       it('can be instantiated from another chainlock', function () {
         const chainLock = ChainLock.fromBuffer(buf2);
         const chainLock2 = new ChainLock(chainLock);
-        chainLock2.toString().should.equal(chainLock.toString());
+        expect(chainLock2.toString()).to.equal(chainLock.toString());
       });
     });
   });
@@ -197,6 +202,8 @@ describe('ChainLock', function () {
     describe('#verify', function () {
       this.timeout(15000);
       it('should verify signature against SMLStore', async function () {
+        Networks.enableRegtest();
+
         const chainLock = new ChainLock(buf4);
         const smlDiffArray = SMNListFixture.getChainlockDiffArray();
         const SMLStore = new SimplifiedMNListStore(smlDiffArray);
@@ -274,7 +281,7 @@ describe('ChainLock', function () {
         const chainLock = new ChainLock(str);
         const output =
           '<ChainLock: 00000105df60caca6a257d8f2f90d422f2d1abf6658555650d5c2c8ecd209e25, height: 382312>';
-        chainLock.inspect().should.equal(output);
+        expect(chainLock.inspect()).to.be.equal(output);
       });
     });
   });

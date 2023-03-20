@@ -94,6 +94,10 @@ export class SimplifiedMNListEntry {
   pubKeyOperator: string;
   votingAddress: string;
   isValid: boolean;
+  nVersion: number;
+  nType: number;
+  platformHTTPPort?: number;
   payoutAddress?: string;
+  platformNodeID?: string;
   operatorPayoutAddress?: string;
 }
