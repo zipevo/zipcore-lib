@@ -90,7 +90,7 @@ export class Block {
    */
   toObject(): {
     header: BlockHeader.toObjectParams;
-    transactions: Transaction.toObject[];
+    transactions: any[];
   };
 
   /**

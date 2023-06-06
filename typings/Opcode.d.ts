@@ -23,7 +23,7 @@ export class Opcode {
    * @param {Opcode} opcode
    * @returns true if opcode is one of OP_0, OP_1, ..., OP_16
    */
-  static isSmallIntOp(opcode): Boolean;
+  static isSmallIntOp(opcode: Opcode): Boolean;
 
   /**
    * @returns map of the available opcodes

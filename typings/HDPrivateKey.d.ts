@@ -141,13 +141,13 @@ export class HDPrivateKey {
    * @param {string|Buffer} data - the serialized private key
    * @param {string|Network=} network - optional, if present, checks that the
    *     network provided matches the network serialized.
-   * @return {InvalidArgument|null}
+   * @return {Error|null}
    */
   // @ts-ignore
   static getSerializedError(
     data: string | Buffer,
     network: string | Network
-  ): InvalidArgument | null;
+  ): Error | null;
 
   /**
    * Generate a private key from a seed, as described in BIP32

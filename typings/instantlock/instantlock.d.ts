@@ -93,7 +93,7 @@ export class InstantLock {
    * @param {SimplifiedMNListStore} smlStore - used to reconstruct quorum lists
    * @returns {Promise<Boolean>} - returns the result of the verification
    */
-  verify(smlStore): Promise<boolean>;
+  verify(smlStore: SimplifiedMNListStore): Promise<boolean>;
 
   /**
    * Validate InstantLock structure

@@ -1,7 +1,7 @@
 import { SimplifiedMNListDiff } from './SimplifiedMNListDiff';
 import { SimplifiedMNListEntry } from './SimplifiedMNListEntry';
 import { QuorumEntry } from './QuorumEntry';
-import * as constants from 'constants';
+import * as constants from '../constants';
 
 export class SimplifiedMNList {
   constructor(arg?: Buffer | any | string);

@@ -7,6 +7,7 @@ import { Output } from './Output';
 import { Signature } from '../crypto/Signature';
 import { AbstractPayload } from './payload/AbstractPayload';
 import { bitcore } from '../bitcore';
+import { TransactionSignature } from './TransactionSignature';
 
 export namespace Transaction {
   /**
@@ -363,7 +364,7 @@ export class Transaction {
    */
   sortInputs(sortingFunction: (...params: any[]) => any): Transaction;
 
-  removeInput(txId, outputIndex): void;
+  removeInput(txId: number | string, outputIndex: number): void;
 
   /**
    * Sign the transaction using one or more private keys.
@@ -410,7 +411,7 @@ export class Transaction {
    * @param signature
    * @return {Boolean}
    */
-  isValidSignature(signature): boolean;
+  isValidSignature(signature: TransactionSignature): boolean;
 
   /**
    * @returns {bool} whether the signature is valid for this transaction input
