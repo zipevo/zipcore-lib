@@ -1,4 +1,4 @@
-import PublicKey from '../../PublicKey';
+import { PublicKey } from '../../PublicKey';
 import { Input } from './Input';
 import { TransactionSignature } from '../TransactionSignature';
 import { Transaction } from '../Transaction';

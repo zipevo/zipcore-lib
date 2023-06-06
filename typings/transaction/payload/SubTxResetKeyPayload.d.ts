@@ -1,3 +1,5 @@
+import { PrivateKey } from '../../PrivateKey';
+
 /**
  * @typedef {Object} SubTxResetKeyPayloadJSON
  * @property {number} version - payload version

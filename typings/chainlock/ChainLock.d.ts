@@ -87,7 +87,7 @@ export class ChainLock {
    * @param {BufferWriter} [br] - an object with all properties of chainlock
    * @return {BufferWriter}
    */
-  toBufferWriter(br?): BufferWriter;
+  toBufferWriter(br?: BufferWriter): BufferWriter;
 
   /**
    * Creates a copy of ChainLock
