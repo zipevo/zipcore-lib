@@ -1,3 +1,11 @@
+import { Proposal } from './Proposal';
+import { Trigger } from './Trigger';
+
+export namespace GovObject {
+  export { Proposal };
+  export { Trigger };
+}
+
 /**
  * Represents a generic Governance Object
  *

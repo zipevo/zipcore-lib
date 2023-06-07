@@ -18,7 +18,7 @@ export namespace Transaction {
    * @property {(Buffer|string|Script)} script
    * @property {number} satoshis
    */
-  type fromObjectParams = {
+  export type fromObjectParams = {
     prevTxId: string;
     outputIndex: number;
     script: Buffer | string | Script;
@@ -29,10 +29,15 @@ export namespace Transaction {
    * @property {(string|Address)} address
    * @property {number} satoshis
    */
-  type toObjectParams = {
+  export type toObjectParams = {
     address: string | Address;
     satoshis: number;
   };
+
+  export { Input };
+  export { Output };
+  export { UnspentOutput };
+  export { TransactionSignature as Signature };
 }
 /**
  * Represents a transaction, a set of inputs and outputs to change ownership of tokens
