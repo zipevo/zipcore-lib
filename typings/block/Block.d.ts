@@ -1,6 +1,7 @@
 import { BufferReader } from '../buffer/BufferReader';
 import { BufferWriter } from '../buffer/BufferWriter';
 import { BlockHeader } from './BlockHeader';
+import { MerkleBlock } from './MerkleBlock';
 import { Transaction } from '../transaction/Transaction';
 
 export namespace Block {
@@ -9,7 +10,7 @@ export namespace Block {
    * @property {Transaction.toObjectParams[]} transactions
    * @property {BlockHeader.toObjectParams} header
    */
-  type fromObjectParams = {
+  export type fromObjectParams = {
     transactions: Transaction[];
     header: BlockHeader.toObjectParams;
   };
@@ -23,7 +24,7 @@ export namespace Block {
    * @property {number} bits
    * @property {number} nonce
    */
-  type toObjectParams = {
+  export type toObjectParams = {
     hash: string;
     version: number;
     prevHash: string;
@@ -33,10 +34,13 @@ export namespace Block {
     nonce: number;
   };
 
-  type Values = {
+  export type Values = {
     START_OF_BLOCK: number;
     NULL_HASH: Buffer;
   };
+
+  export { BlockHeader };
+  export { MerkleBlock };
 }
 
 /**
