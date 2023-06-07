@@ -8,6 +8,7 @@ import { Signature } from '../crypto/Signature';
 import { AbstractPayload } from './payload/AbstractPayload';
 import { bitcore } from '../bitcore';
 import { TransactionSignature } from './TransactionSignature';
+import { UnspentOutput } from './UnspentOutput';
 
 export namespace Transaction {
   /**
@@ -177,10 +178,10 @@ export class Transaction {
    * @param {number=} threshold
    */
   from(
-    utxo: Transaction.fromObjectParams[] | Transaction.fromObjectParams,
+    utxo: Transaction.fromObjectParams[] | Transaction.fromObjectParams | UnspentOutput | UnspentOutput[],
     pubkeys?: any[],
     threshold?: number
-  ): void;
+  ): Transaction;
 
   /**
    * Add an input to this transaction. The input must be an instance of the `Input` class.
@@ -239,7 +240,7 @@ export class Transaction {
    * @param {Address} address An address for change to be sent to.
    * @return {Transaction} this, for chaining
    */
-  change(address: Address): Transaction;
+  change(address: Address | string): Transaction;
 
   /**
    * @return {Output} change output, if it exists
@@ -475,6 +476,12 @@ export class Transaction {
    * @returns {Object} A plain object with the address information
    */
   toJSON(): any;
+
+  /**
+   * @function
+   * @returns {Buffer} Buffer with the transaction bytes
+   */
+  toBuffer(): Buffer;
 
   /**
    * @param {Number} fundingAmount
