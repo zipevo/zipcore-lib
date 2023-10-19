@@ -21,7 +21,7 @@ var Address = bitcore.Address;
 var Opcode = bitcore.Opcode;
 var errors = bitcore.errors;
 var Payload = bitcore.Transaction.Payload;
-var SubTxRegisterPayload = Payload.SubTxRegisterPayload;
+var AssetLockPayload = Payload.AssetLockPayload;
 var RegisteredTransactionTypes = Payload.constants.registeredTransactionTypes;
 
 var transactionVector = require('../data/tx_creation');
@@ -208,9 +208,7 @@ describe('Transaction', function () {
 
   it('should autofill version field if nothing passed to constructor', function () {
     var testKey = 'cNfg1KdmEXySkwK5XyydmgoKLbMaCiRyqPEtXZPw1aq8XMd5U5GF';
-    var testName = 'test';
     var transaction = new Transaction({
-      type: Transaction.TYPES.TRANSACTION_SUBTX_REGISTER,
       outputs: [
         {
           satoshis: 18492520000,
@@ -229,10 +227,6 @@ describe('Transaction', function () {
       solvable: true,
       ps_rounds: -2,
     });
-    transaction.extraPayload
-      .setUserName(testName)
-      .setPubKeyIdFromPrivateKey(testKey)
-      .sign(testKey);
 
     expect(transaction.version).to.be.equal(Transaction.CURRENT_VERSION);
     var serialized = transaction.sign(new PrivateKey(testKey)).serialize(true);
@@ -1376,39 +1370,47 @@ describe('Transaction', function () {
     });
   });
   describe('setExtraPayload', function () {
-    var testName = 'test';
-    var nameSize = Buffer.from(testName, 'utf8').length;
-    var validPayload = new SubTxRegisterPayload()
-      .setUserName(testName)
-      .setPubKeyIdFromPrivateKey(privateKey);
+    var output = Output.fromObject({
+      satoshis: 1000,
+      script: Script.buildPublicKeyHashOut(fromAddress),
+    });
+
+    var validPayload = new AssetLockPayload.fromJSON({
+      version: 1,
+      creditOutputs: [
+        output
+      ]
+    });
 
     it('Should set payload and size', function () {
       var transaction = Transaction()
-        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
+        .setType(Transaction.TYPES.TRANSACTION_ASSET_LOCK)
         .setExtraPayload(validPayload);
 
-      // 2 bytes for payload version, 1 byte for username size, and 1 is empty signature
+      // 1 byte for payload version, 1 byte for array size and remaining is for output
       var expectedPayloadSize =
-        2 + 1 + nameSize + Payload.constants.PUBKEY_ID_SIZE + 1;
+        1 + 1 + output.toBufferWriter().toBuffer().length;
       var payloadSize = transaction.getExtraPayloadSize();
       expect(payloadSize).to.be.equal(expectedPayloadSize);
       expect(transaction.extraPayload).to.be.deep.equal(validPayload);
     });
+
     it('Should be possible to serialize and deserialize special transaction', function () {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
+        .setType(RegisteredTransactionTypes.TRANSACTION_ASSET_LOCK)
         .setExtraPayload(validPayload)
         .sign(privateKey);
 
       var serialized = transaction.serialize();
       var deserialized = new Transaction(serialized);
 
-      expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
+      expect(deserialized.extraPayload.toJSON()).to.be.deep.equal(validPayload.toJSON());
       expect(deserialized.type).to.be.equal(transaction.type);
     });
+
     it('Should not be possible to set extra payload if transaction type is not set', function () {
       expect(function () {
         var transaction = Transaction()
@@ -1424,14 +1426,14 @@ describe('Transaction', function () {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setType(RegisteredTransactionTypes.TRANSACTION_SUBTX_REGISTER)
+        .setType(RegisteredTransactionTypes.TRANSACTION_ASSET_LOCK)
         .setExtraPayload(validPayload)
         .sign(privateKey);
 
       var serialized = transaction.toObject();
       var deserialized = new Transaction(serialized);
 
-      expect(deserialized.extraPayload).to.be.deep.equal(validPayload);
+      expect(deserialized.extraPayload.toJSON()).to.be.deep.equal(validPayload.toJSON());
       expect(deserialized.type).to.be.equal(transaction.type);
     });
     it('Should throw when trying to serialize special transaction without any payload', function () {
@@ -1439,7 +1441,7 @@ describe('Transaction', function () {
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER);
+        .setType(Transaction.TYPES.TRANSACTION_ASSET_LOCK);
 
       delete transaction.extraPayload;
 
@@ -1447,12 +1449,13 @@ describe('Transaction', function () {
         transaction.sign(privateKey).serialize();
       }).to.throw('Transaction payload size is invalid');
     });
+
     it('Should throw when extra payload is set, but special transaction type is not set', function () {
       var transaction = Transaction()
         .from(simpleUtxoWith1BTC)
         .to(fromAddress, 10000)
         .change(fromAddress)
-        .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
+        .setType(Transaction.TYPES.TRANSACTION_ASSET_LOCK)
         .setExtraPayload(validPayload)
         .sign(privateKey);
 
@@ -1463,6 +1466,8 @@ describe('Transaction', function () {
       }).to.throw('Special transaction type is not set');
     });
   });
+
+
   describe('isSpecialTransaction', function () {
     it('Should return true if a transaction is qualified to be a special transaction', function () {
       var transaction = Transaction().setType(
@@ -1480,24 +1485,24 @@ describe('Transaction', function () {
   describe('setType', function () {
     it('Should set type and create payload', function () {
       var transaction = new Transaction().setType(
-        Transaction.TYPES.TRANSACTION_SUBTX_REGISTER
+        Transaction.TYPES.TRANSACTION_ASSET_LOCK
       );
 
       expect(transaction.type).to.be.equal(
-        Transaction.TYPES.TRANSACTION_SUBTX_REGISTER
+        Transaction.TYPES.TRANSACTION_ASSET_LOCK
       );
       expect(transaction.extraPayload).to.be.an.instanceOf(
-        SubTxRegisterPayload
+        AssetLockPayload
       );
     });
 
     it('Should not be able to set transaction type after it was already set', function () {
       var transaction = new Transaction().setType(
-        Transaction.TYPES.TRANSACTION_SUBTX_REGISTER
+        Transaction.TYPES.TRANSACTION_ASSET_LOCK
       );
 
       expect(transaction.extraPayload).to.be.an.instanceOf(
-        SubTxRegisterPayload
+        AssetLockPayload
       );
 
       expect(function () {
@@ -1637,94 +1642,6 @@ describe('Transaction', function () {
   });
 
   describe('Special transaction payload integration', function () {
-    var randomPubKeyId = new PrivateKey()
-      .toPublicKey()
-      ._getID()
-      .toString('hex');
-    var subTxRegisterHex =
-      '03000800000140420f0000000000016a000000005d0100047465737488d9931ea73d60eaf7e5671efc0552b912911f2a412068b83466eaae3ac1f5c021d8d95559592c1e4c49142dc0da61e4912e124b4bca5ad5f5e282e24f6c0c1b1580545479d2c40ca088e54316c836221a143da5596c';
-    var username = 'test';
-    var expectedPubKeyId = new PrivateKey(privateKey)
-      .toPublicKey()
-      ._getID()
-      .toString('hex');
-    var privateKeyToSignTransaction =
-      'cRbKdvygFSgwQQ61owyRuiNiknvWPN2zjjw7KS22q7kCwt2naVJf';
-
-    describe('Registration transaction', function () {
-      it('Should parse special transaction correctly', function () {
-        var parsedTransaction = new Transaction(subTxRegisterHex);
-
-        expect(parsedTransaction.type).to.be.equal(
-          Transaction.TYPES.TRANSACTION_SUBTX_REGISTER
-        );
-        expect(parsedTransaction.extraPayload.version).to.be.equal(1);
-        expect(parsedTransaction.extraPayload.userName).to.be.equal(username);
-        expect(
-          parsedTransaction.extraPayload.pubKeyId.toString('hex')
-        ).to.be.equal(expectedPubKeyId);
-
-        expect(parsedTransaction.extraPayload.verifySignature(expectedPubKeyId))
-          .to.be.true;
-        expect(parsedTransaction.extraPayload.verifySignature(randomPubKeyId))
-          .to.be.false;
-      });
-
-      it('Should create valid hex', function () {
-        // In this case, funding will be 0.0001 and fee 0.00001
-        var transaction = new Transaction()
-          .setType(Transaction.TYPES.TRANSACTION_SUBTX_REGISTER)
-          .from({
-            txid: '51c8cc5d5f375983eb37891d66da4656aa2617ef3f82073a34dc7a76331486ff',
-            vout: 0,
-            address: 'yT9Lms2ATYLd3QLA4pVpg3mQ5KiHB9Dp1b',
-            scriptPubKey:
-              '210316dd99f0c194577d9f60ebfc889bdaf013f7bfd990acdf71b26d5eef14597c96ac',
-            amount: 345.18076547,
-            confirmations: 337,
-            spendable: true,
-            solvable: true,
-            ps_rounds: -2,
-          })
-          .addFundingOutput(10000)
-          .to('yT9Lms2ATYLd3QLA4pVpg3mQ5KiHB9Dp1b', 34518076547 - 11000);
-
-        transaction.extraPayload
-          .setUserName(username)
-          .setPubKeyIdFromPrivateKey(privateKey)
-          .sign(privateKey);
-
-        transaction.sign(new PrivateKey(privateKeyToSignTransaction));
-
-        expect(transaction.extraPayload.version).to.be.equal(1);
-        expect(transaction.extraPayload.userName).to.be.equal(username);
-        expect(transaction.extraPayload.pubKeyId.toString('hex')).to.be.equal(
-          expectedPubKeyId
-        );
-
-        expect(transaction.extraPayload.verifySignature(expectedPubKeyId)).to.be
-          .true;
-        expect(transaction.extraPayload.verifySignature(randomPubKeyId)).to.be
-          .false;
-      });
-    });
-
-    describe('Topup Transaction', function () {
-      it('Should parse the payload', function () {
-        var txHexString =
-          '030009000001001bb70000000000016a000000002201003727f1b7e5aa90f32235d045fd4624bf453fe8e16ea5010ad923f70d2f88fd45';
-
-        var transaction = new Transaction(txHexString);
-
-        expect(transaction.extraPayload.version).to.be.equal(1);
-        expect(transaction.extraPayload.regTxHash).to.be.equal(
-          '45fd882f0df723d90a01a56ee1e83f45bf2446fd45d03522f390aae5b7f12737'
-        );
-
-        expect(transaction.outputs[0].satoshis).to.be.equal(12000000);
-      });
-    });
-
     describe('Provider Register Transaction with collateral (protx register)', function () {
       it('Should parse the payload if transaction serialized as a hex string', function () {
         var tx = new Transaction(proRegTxFixture.getProRegTransactionHex());
@@ -1878,65 +1795,6 @@ describe('Transaction', function () {
 
         var tx = new Transaction(transactionHex);
         expect(tx.extraPayload.version).to.be.equal(1);
-      });
-    });
-
-    describe('State transition', function () {
-      var regTxId =
-        'd0df4810f9899a71968b5e4147b52cab86ad9342a9806a514227514d8a160a3c';
-      var hashPrevSubTx =
-        'd0df4810f9899a71968b5e4147b52cab86ad9342a9806a514227514d8a160a3c';
-      var hashSTPacket =
-        'a0df4810f9899a71968b5e4147b52cab86ad9342a9806a514227514d8a160a3a';
-      var creditFee = 1000; // 0.00001 dash
-
-      it('Should parse and verify hex', function () {
-        var subTxTransitionTxHex =
-          '03000c00000000000000ac01003c0a168a4d512742516a80a94293ad86ab2cb547415e8b96719a89f91048dfd03c0a168a4d512742516a80a94293ad86ab2cb547415e8b96719a89f91048dfd0e8030000000000003a0a168a4d512742516a80a94293ad86ab2cb547415e8b96719a89f91048dfa0411f3ae683b0a3ac3c3342ab30e646df344e8c3648902b48c5cb5f29c17f15a43ad93943b49c1f83a06321c6c434ae1c73d22ae83da3d39b9c5ce98a7947f5deab90';
-
-        var transaction = new Transaction(subTxTransitionTxHex);
-
-        expect(transaction.extraPayload.version).to.be.equal(1);
-        expect(transaction.extraPayload.regTxId).to.be.equal(regTxId);
-        expect(transaction.extraPayload.hashPrevSubTx).to.be.equal(
-          hashPrevSubTx
-        );
-        expect(transaction.extraPayload.hashSTPacket).to.be.equal(hashSTPacket);
-        expect(transaction.extraPayload.creditFee).to.be.equal(creditFee);
-
-        expect(transaction.extraPayload.verifySignature(expectedPubKeyId)).to.be
-          .true;
-        expect(transaction.extraPayload.verifySignature(randomPubKeyId)).to.be
-          .false;
-      });
-
-      it('Should create valid hex', function () {
-        var prevSubTx =
-          'ef94b22076eddf91430f52910f13dce287e46a9d878164ce07292a7f7ccaeb70';
-
-        var transaction = new Transaction().setType(
-          Transaction.TYPES.TRANSACTION_SUBTX_TRANSITION
-        );
-
-        transaction.extraPayload
-          .setRegTxId(regTxId)
-          .setHashPrevSubTx(prevSubTx)
-          .setHashSTPacket(hashSTPacket)
-          .setCreditFee(creditFee)
-          .sign(privateKey);
-
-        var transactionHex = transaction.serialize();
-
-        expect(transaction.extraPayload.version).to.be.equal(1);
-        expect(transaction.extraPayload.regTxId).to.be.equal(regTxId);
-        expect(transaction.extraPayload.hashPrevSubTx).to.be.equal(prevSubTx);
-        expect(transaction.extraPayload.hashSTPacket).to.be.equal(hashSTPacket);
-        expect(transaction.extraPayload.creditFee).to.be.equal(creditFee);
-
-        expect(transaction.extraPayload.verifySignature(expectedPubKeyId)).to.be
-          .true;
-        expect(transaction.extraPayload.verifySignature(randomPubKeyId)).to.be
-          .false;
       });
     });
   });
