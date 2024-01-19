@@ -64,6 +64,8 @@ export { ProRegTxPayload } from './typings/transaction/payload/ProRegTxPayload';
 export { ProUpRegTxPayload } from './typings/transaction/payload/ProUpRegTxPayload';
 export { ProUpRevTxPayload } from './typings/transaction/payload/ProUpRevTxPayload';
 export { ProUpServTxPayload } from './typings/transaction/payload/ProUpServTxPayload';
+export { AssetLockPayload } from './typings/transaction/payload/AssetLockPayload';
+export { AssetUnlockPayload } from './typings/transaction/payload/AssetUnlockPayload';
 
 export { Output } from './typings/transaction/Output';
 
