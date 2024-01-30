@@ -120,8 +120,7 @@ describe('AssetUnlockPayload', function () {
     });
   });
 
-  // TODO: write more tests
-  describe.skip('#validate', function () {
+  describe('#validate', function () {
     it('Should allow only unsigned integer as version', function () {
       var payload = validAssetUnlockPayload.copy();
 
@@ -150,6 +149,164 @@ describe('AssetUnlockPayload', function () {
       }).to.throw('Invalid Argument: Expect version to be an unsigned integer');
 
       payload.version = 123;
+
+      expect(function () {
+        payload.validate();
+      }).not.to.throw;
+    });
+
+    it('Should allow only unsigned integer as index', function () {
+      var payload = validAssetUnlockPayload.copy();
+
+      payload.index = -1;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect index to be an unsigned integer');
+
+      payload.index = 1.5;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect index to be an unsigned integer');
+
+      payload.index = '12';
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect index to be an unsigned integer');
+
+      payload.index = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect index to be an unsigned integer');
+
+      payload.index = 123;
+
+      expect(function () {
+        payload.validate();
+      }).not.to.throw;
+    });
+
+    it('Should allow only unsigned integer as fee', function () {
+      var payload = validAssetUnlockPayload.copy();
+
+      payload.fee = -1;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect fee to be an unsigned integer');
+
+      payload.fee = 1.5;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect fee to be an unsigned integer');
+
+      payload.fee = '12';
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect fee to be an unsigned integer');
+
+      payload.fee = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect fee to be an unsigned integer');
+
+      payload.fee = 123;
+
+      expect(function () {
+        payload.validate();
+      }).not.to.throw;
+    });
+
+    it('Should allow only unsigned integer as requestHeight', function () {
+      var payload = validAssetUnlockPayload.copy();
+
+      payload.requestHeight = -1;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect requestHeight to be an unsigned integer');
+
+      payload.requestHeight = 1.5;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect requestHeight to be an unsigned integer');
+
+      payload.requestHeight = '12';
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect requestHeight to be an unsigned integer');
+
+      payload.requestHeight = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Invalid Argument: Expect requestHeight to be an unsigned integer');
+
+      payload.requestHeight = 123;
+
+      expect(function () {
+        payload.validate();
+      }).not.to.throw;
+    });
+
+    it('Should allow only hex string as quorumHash', function () {
+      var payload = validAssetUnlockPayload.copy();
+
+      payload.quorumHash = -1;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumHash to be a hex string');
+
+      payload.quorumHash = 1.5;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumHash to be a hex string');
+
+      payload.quorumHash = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumHash to be a hex string');
+
+      payload.quorumHash = 123;
+
+      expect(function () {
+        payload.validate();
+      }).not.to.throw;
+    });
+
+    it('Should allow only hex string as quorumSig', function () {
+      var payload = validAssetUnlockPayload.copy();
+
+      payload.quorumSig = -1;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumSig to be a hex string');
+
+      payload.quorumSig = 1.5;
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumSig to be a hex string');
+
+      payload.quorumSig = Buffer.from('0a0f', 'hex');
+
+      expect(function () {
+        payload.validate();
+      }).to.throw('Expect quorumSig to be a hex string');
+
+      payload.quorumSig = 123;
 
       expect(function () {
         payload.validate();
