@@ -37,6 +37,8 @@ import type {
   MultiSigInput,
   MultiSigScriptHashInput,
   AbstractPayload,
+  AssetLockPayload,
+  AssetUnlockPayload,
   CoinbasePayload,
   CommitmentTxPayload,
   ProRegTxPayload,

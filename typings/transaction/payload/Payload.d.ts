@@ -5,6 +5,7 @@ import { ProUpServTxPayload } from './ProUpServTxPayload';
 import { CoinbasePayload } from './CoinbasePayload';
 import { CommitmentTxPayload } from './CommitmentTxPayload';
 import { AssetLockPayload } from './AssetLockPayload';
+import { AssetUnlockPayload } from './AssetUnlockPayload';
 
 export namespace Payload {
   export { ProRegTxPayload };
@@ -14,4 +15,5 @@ export namespace Payload {
   export { CoinbasePayload };
   export { CommitmentTxPayload };
   export { AssetLockPayload };
+  export { AssetUnlockPayload };
 }
