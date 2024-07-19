@@ -5,7 +5,7 @@
 /* jshint latedef: false */
 var should = require('chai').should();
 var expect = require('chai').expect;
-var _ = require('lozip');
+var _ = require('lodash');
 var sinon = require('sinon');
 
 var bitcore = require('../../index.js');

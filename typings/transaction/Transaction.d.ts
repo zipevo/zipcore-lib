@@ -345,7 +345,7 @@ export class Transaction {
 
   /**
    * Randomize this transaction's outputs ordering. The shuffling algorithm is a
-   * version of the Fisher-Yates shuffle, provided by lozip's _.shuffle().
+   * version of the Fisher-Yates shuffle, provided by lodash's _.shuffle().
    *
    * @return {Transaction} this
    */

@@ -6,7 +6,7 @@
 
 var should = require('chai').should();
 var expect = require('chai').expect;
-var _ = require('lozip');
+var _ = require('lodash');
 
 var bitcore = require('../../../index.js');
 var Transaction = bitcore.Transaction;
