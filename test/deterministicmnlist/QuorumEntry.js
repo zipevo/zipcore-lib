@@ -5,7 +5,7 @@ var expect = require('chai').expect;
 var QuorumEntry = require('../../lib/deterministicmnlist/QuorumEntry');
 var SimplifiedMNList = require('../../lib/deterministicmnlist/SimplifiedMNList');
 var SMNListFixture = require('../fixtures/mnList');
-const DashcoreLib = require("../../index");
+const ZipcoreLib = require("../../index");
 
 describe('QuorumEntry', function () {
   this.timeout(10000);
@@ -20,7 +20,7 @@ describe('QuorumEntry', function () {
   let quorumEntryHexV4;
 
   beforeEach(() => {
-    DashcoreLib.Networks.disableRegtest();
+    ZipcoreLib.Networks.disableRegtest();
 
     quorumEntryJSON = {
       "version": 3,

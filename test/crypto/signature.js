@@ -3,7 +3,7 @@
 
 'use strict';
 
-var _ = require('lodash');
+var _ = require('lozip');
 var should = require('chai').should();
 var bitcore = require('../../index.js');
 var BN = bitcore.crypto.BN;

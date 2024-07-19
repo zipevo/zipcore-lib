@@ -4,14 +4,14 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
-var DashcoreLib = require('../../../index');
+var ZipcoreLib = require('../../../index');
 
 var BN = require('../../../lib/crypto/bn');
 
-var AssetUnlockPayload = DashcoreLib.Transaction.Payload.AssetUnlockPayload;
-var Script = DashcoreLib.Script;
-var Address = DashcoreLib.Address;
-var Output = DashcoreLib.Transaction.Output;
+var AssetUnlockPayload = ZipcoreLib.Transaction.Payload.AssetUnlockPayload;
+var Script = ZipcoreLib.Script;
+var Address = ZipcoreLib.Address;
+var Output = ZipcoreLib.Transaction.Output;
 
 var output1 = Output.fromObject({
   satoshis: 1000,

@@ -3,7 +3,7 @@
 
 'use strict';
 
-var _ = require('lodash');
+var _ = require('lozip');
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;

@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 module.exports = {
-  // dash-cli protx diff 1000 5000 1
+  // zip-cli protx diff 1000 5000 1
   getMNListJSON: function getMNListJSON() {
     return {
       "baseBlockHash": "149ab9715c9d536e2e322f6b5cf114342c501fe6c92c5d17fae0e8c1303744ce",
@@ -521,7 +521,7 @@ module.exports = {
       "merkleRootQuorums": "e3932723ad8304fe18c962071753f2011ba33d86375ab2e9f21898257e9d54cf"
     };
   },
-  // dash-cli protx diff 1000 6000 1
+  // zip-cli protx diff 1000 6000 1
   getFirstDiff: function getFirstDiff() {
     return {
       "baseBlockHash": "61e699605a613c167bbcec14c6b34ae6208548a072d16d1f35bb6c4fa56fb8cf",
@@ -1041,7 +1041,7 @@ module.exports = {
       "merkleRootQuorums": "d14a842bc0b1ae3dcecd9aa1a6ae6f742a71a6de54a48f91022952ccffa73db7"
     };
   },
-  // dash-cli protx diff 6000 8000 1
+  // zip-cli protx diff 6000 8000 1
   getDiffThatAddsMoreThanDeletes: function getDiffThatAddsMoreThanDeletes() {
     return {
       "baseBlockHash": "00000008ffc1bd8ed7a7373934a197fb3e76be7615e1459565a3786d1b876b25",
@@ -1220,7 +1220,7 @@ module.exports = {
       "merkleRootQuorums": "d98a73a825065bf125223b836e07e0e36d0d2139acc8d2a8a8205ebabc995154"
     };
   },
-  // dash-cli protx diff 6000 7000 1
+  // zip-cli protx diff 6000 7000 1
   getSecondDiff: function getSecondDiff() {
     return {
       "baseBlockHash": "00000008ffc1bd8ed7a7373934a197fb3e76be7615e1459565a3786d1b876b25",
@@ -1420,7 +1420,7 @@ module.exports = {
       "merkleRootQuorums": "d98a73a825065bf125223b836e07e0e36d0d2139acc8d2a8a8205ebabc995154"
     };
   },
-  // dash-cli protx diff 7000 8000 1
+  // zip-cli protx diff 7000 8000 1
   getThirdDiff: function getThirdDiff() {
     return {
       "baseBlockHash": "000002cc0ca66f2925a34fb12c95546d1f7712cb7f866c0c65e2dab8dea7c770",
@@ -1620,7 +1620,7 @@ module.exports = {
       "merkleRootQuorums": "595ac2a8cb832673bed401336f258d1255a008e43cc91c773c1e84c828b66f06"
     };
   },
-   // dash-cli protx diff 000002cc0ca66f2925a34fb12c95546d1f7712cb7f866c0c65e2dab8dea7c770 000000366de327c4491babf126c483005382bd3a1745817245724def5b1447f5
+   // zip-cli protx diff 000002cc0ca66f2925a34fb12c95546d1f7712cb7f866c0c65e2dab8dea7c770 000000366de327c4491babf126c483005382bd3a1745817245724def5b1447f5
   getSmlDiff: function() {
     return {
       "baseBlockHash": "000002cc0ca66f2925a34fb12c95546d1f7712cb7f866c0c65e2dab8dea7c770",
@@ -2019,7 +2019,7 @@ module.exports = {
       "merkleRootQuorums": "ae11b8213cfaf8bc53e134faf3b09d00cf29ab996817fdb8b3f4463bc774a21c"
     };
   },
-  // dash-cli protx diff 1000 7000 1
+  // zip-cli protx diff 1000 7000 1
   getFirstTwoDiffsCombined: function () {
     return {
       "baseBlockHash": "61e699605a613c167bbcec14c6b34ae6208548a072d16d1f35bb6c4fa56fb8cf",

@@ -12,7 +12,7 @@ var Script = bitcore.Script;
 var BN = bitcore.crypto.BN;
 var BufferWriter = bitcore.encoding.BufferWriter;
 var Opcode = bitcore.Opcode;
-var _ = require('lodash');
+var _ = require('lozip');
 
 var script_valid = require('../data/bitcoind/script_valid');
 var script_invalid = require('../data/bitcoind/script_invalid');

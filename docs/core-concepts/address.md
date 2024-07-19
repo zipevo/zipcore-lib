@@ -1,6 +1,6 @@
-# Dash Address
+# Zip Address
 
-Represents a Dash address. Addresses are the most popular way to make Dash transactions. See [the Dash documentation](https://dash-docs.github.io/en/glossary/address) for technical background information.
+Represents a Zip address. Addresses are the most popular way to make Zip transactions. See [the Zip documentation](https://zip-docs.github.io/en/glossary/address) for technical background information.
 
 ## Instantiate an Address
 
@@ -37,7 +37,7 @@ var p2shAddress = new Address([publicKey1, publicKey2, publicKey3], 2);
 
 ## Validating an Address
 
-The main use that we expect you'll have for the `Address` class in Dashcore is validating that an address is a valid one, what type of address it is (you may be interested on knowing if the address is a simple "pay to public key hash" address or a "pay to script hash" address) and what network does the address belong to.
+The main use that we expect you'll have for the `Address` class in Zipcore is validating that an address is a valid one, what type of address it is (you may be interested on knowing if the address is a simple "pay to public key hash" address or a "pay to script hash" address) and what network does the address belong to.
 
 The code to do these validations looks like this:
 
@@ -65,4 +65,4 @@ var error = Address.getValidationError(input, Networks.testnet);
 }
 ```
 
-The errors are listed in the generated file in the [errors folder](https://github.com/dashevo/bitcore-dash/tree/master/lib/errors). There's a structure to errors defined in the [spec.js file](https://github.com/dashevo/bitcore-dash/tree/master/lib/errors/spec.js).
+The errors are listed in the generated file in the [errors folder](https://github.com/zipevo/bitcore-zip/tree/master/lib/errors). There's a structure to errors defined in the [spec.js file](https://github.com/zipevo/bitcore-zip/tree/master/lib/errors/spec.js).

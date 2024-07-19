@@ -14,7 +14,7 @@ const diffArrayDevnetFixture = require('../fixtures/diffArrayDevnet.json');
 const diffArrayAdditionalFixture = require('../fixtures/v19diffArray1739-1756.json');
 const getSMLStoreJSONFixtureNoQuorums = require('../fixtures/getSMLStoreNoQuorumsJSON');
 
-const DashcoreLib = require('../../index');
+const ZipcoreLib = require('../../index');
 const constants = require("../../lib/constants");
 const { Networks } = require("../../index");
 
@@ -35,7 +35,7 @@ describe('InstantLock', function () {
   let instantLockJSONFromTestNet;
 
   beforeEach(() => {
-    DashcoreLib.Networks.enableRegtest();
+    ZipcoreLib.Networks.enableRegtest();
 
     str =
       '013c4493ff16e63720c9c46fe866ef9e49b1787369e387a4f7267d29df37c31ae6010000009a0626badd140d5c8265eeb429aa91b2c371656ccdd993a2682eb69396b85806879660757405ddc5dbb88d6366333032b901101b9bc3bff47d1d48189645a3ec8757142e749fa885ddf293817d669e4e12650b0d1c2111e4f98e2613e59ba09cf60f29c31260c9fc12a77f92ecfb5d22e36678808193052c5b71a2b659a2642c';

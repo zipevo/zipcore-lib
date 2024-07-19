@@ -2,7 +2,7 @@ const chai = require('chai');
 const X11 = require('wasm-x11-hash');
 const Hash = require('../lib/crypto/hash');
 const crypto = require('crypto');
-const x11hash = require('@dashevo/x11-hash-js');
+const x11hash = require('@zipevo/x11-hash-js');
 
 const { configure, BlockHeader } = require("../index");
 

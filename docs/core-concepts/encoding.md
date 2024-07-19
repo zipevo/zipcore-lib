@@ -1,6 +1,6 @@
 # Encoding
 
-The `dashcore.Encoding` namespace contains utilities for encoding information in common formats in the Dash ecosystem.
+The `zipcore.Encoding` namespace contains utilities for encoding information in common formats in the Zip ecosystem.
 
 ## Base58 & Base58Check
 
